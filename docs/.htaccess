@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule ^(.*)$ /html/$1 [L]
+RewriteRule ^/(.*)$ /html/$1 [L]
