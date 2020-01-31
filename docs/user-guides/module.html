@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Module &mdash; Pixel Transfer 0.3.0 documentation</title>
+  
+
+  
+  
+  
+  
+    <link rel="canonical" href="https://github.com/Tyxz/PixelTransfer/user-guides/module.html"/>
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CLI" href="commands.html" />
+    <link rel="prev" title="Introduction" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Pixel Transfer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#transfer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transfer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="commands.html">CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about/license.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pixel Transfer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/user-guides/module.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module">
+<span id="id1"></span><h1>Module<a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="transfer">
+<h2><a class="reference internal" href="#module-transfer" title="transfer: A module to transfer alpha and colour information from one image to another. (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transfer</span></code></a><a class="headerlink" href="#transfer" title="Permalink to this headline">¶</a></h2>
+<p>Part of the sphinx build process in generate and index file: <a class="reference internal" href="../genindex.html"><span class="std std-ref">Index</span></a>.</p>
+<span class="target" id="module-transfer"></span><dl class="class">
+<dt id="transfer.Transfer">
+<em class="property">class </em><code class="sig-prename descclassname">transfer.</code><code class="sig-name descname">Transfer</code><span class="sig-paren">(</span><em class="sig-param">base_path: str</em>, <em class="sig-param">goal_path: str</em>, <em class="sig-param">base_filter='*'</em>, <em class="sig-param">goal_filter='*'</em>, <em class="sig-param">exclude=[]</em>, <em class="sig-param">include=[]</em>, <em class="sig-param">out_path='out'</em>, <em class="sig-param">size=None</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">tint=False</em>, <em class="sig-param">colour=None</em>, <em class="sig-param">merge=0</em>, <em class="sig-param">brightness=1.0</em>, <em class="sig-param">contrast=1.0</em>, <em class="sig-param">sharpness=1.0</em>, <em class="sig-param">tint_threshold=100</em><span class="sig-paren">)</span><a class="headerlink" href="#transfer.Transfer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transfer object to transfer pixel information from one image to another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_path</strong> (<em>str</em>) – path to the base image or folder</p></li>
+<li><p><strong>goal_path</strong> (<em>str</em>) – path to the goal image or folder</p></li>
+<li><p><strong>base_filter</strong> (<em>str</em><em>, </em><em>optional</em>) – filter to be used on the base image, defaults to “*”</p></li>
+<li><p><strong>goal_filter</strong> (<em>str</em><em>, </em><em>optional</em>) – filter to be used on the goal image, defaults to “*”</p></li>
+<li><p><strong>exclude</strong> (<em>list</em><em>, </em><em>optional</em>) – list of names to be excluded from the input, defaults to []</p></li>
+<li><p><strong>include</strong> (<em>list</em><em>, </em><em>optional</em>) – list of names to be included by the input, defaults to []</p></li>
+<li><p><strong>out_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path where the result should be stored, defaults to “out”</p></li>
+<li><p><strong>size</strong> (<em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – size tuple [width, height] if you want the result to be resized, defaults to None</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – if you want a output to the console, defaults to True</p></li>
+<li><p><strong>tint</strong> (<em>bool</em><em>, </em><em>optional</em>) – if you want to tint the image, defaults to False</p></li>
+<li><p><strong>colour</strong> (<em>str</em><em>, </em><em>optional</em>) – Specific colour of the tint. If not given but tint is true, the majority colour of the image will be used, defaults to None</p></li>
+<li><p><strong>merge</strong> (<em>int</em><em>, </em><em>optional</em>) – percentage [0-100] of merging the goal image into the base, defaults to 0</p></li>
+<li><p><strong>brightness</strong> (<em>float</em><em>, </em><em>optional</em>) – enhancement factor for the brightness: 0.0 is black, 1.0 is normal and &gt; 1.0 is brighter, defaults to 1.0</p></li>
+<li><p><strong>contrast</strong> (<em>float</em><em>, </em><em>optional</em>) – enhancement factor for the contrast: 0.0 is grey, 1.0 is normal and &gt; 1.0 is more contrast, defaults to 1.0</p></li>
+<li><p><strong>sharpness</strong> (<em>float</em><em>, </em><em>optional</em>) – enhancement factor for the sharpness: 0.0 is smooth, 1.0 is normal and &gt; 1.0 is sharper, defaults to 1.0</p></li>
+<li><p><strong>tint_threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – threshold for the alpha value (0-255) to calculate the majority colour., defaults to 100</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="transfer.Transfer.createImage">
+<code class="sig-name descname">createImage</code><span class="sig-paren">(</span><em class="sig-param">base_image_path: pathlib.Path</em>, <em class="sig-param">goal_image_path: pathlib.Path</em>, <em class="sig-param">out_path='out'</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#transfer.Transfer.createImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an pixel transfer image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_image_path</strong> (<em>Path</em>) – path to the base image</p></li>
+<li><p><strong>goal_image_path</strong> (<em>Path</em>) – path to the goal image</p></li>
+<li><p><strong>out_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path where the result will be saved, defaults to “out”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – if base image is not RGB or RGBA</p></li>
+<li><p><strong>TypeError</strong> – if goal image is not RGBA</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="transfer.Transfer.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#transfer.Transfer.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the transfer module with the previous given values.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="transfer.get_parser">
+<code class="sig-prename descclassname">transfer.</code><code class="sig-name descname">get_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; object<a class="headerlink" href="#transfer.get_parser" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="commands.html" class="btn btn-neutral float-right" title="CLI" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Arne Rantzen
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

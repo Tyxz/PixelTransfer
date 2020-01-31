@@ -1,18 +1,21 @@
-.. Pixel Transfer documentation master file, created by
-   sphinx-quickstart on Fri Jan 31 03:08:54 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Introduction
+************
+The package is released under the open source :ref:`BSD (3-clause) license`<license>`.
 
-Welcome to Pixel Transfer's documentation!
-==========================================
+.. include:: ../../README.md
 
 .. toctree::
     :caption: Contents
 
+    user-guides/module
     user-guides/commands
-    about/license.md
-    about/changelog.md
+    about/changelog
+    about/license
 
+Todos
+=====
+- [] Adding tests
+- [] Improve performance (numpy calculation instead of loop)
 
 Indices and tables
 ==================

@@ -10,9 +10,10 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join('..','..','src')))
+
 import sphinx_material
 import recommonmark
 from recommonmark.transform import AutoStructify
@@ -58,19 +59,20 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+"""
 html_theme = 'sphinx_material'
 # Get the them path
 html_theme_path = sphinx_material.html_theme_path()
 # Register the required helpers for the html context
-html_context = sphinx_material.get_html_context()# Material theme options (see theme.conf for more information)
+# Material theme options (see theme.conf for more information)
+html_context = sphinx_material.get_html_context()
 html_theme_options = {
-
     # Set the name of the project to appear in the navigation.
     'nav_title': 'Pixel Transfer',
 
     # Specify a base_url used to generate sitemap.xml. If not
     # specified, then no sitemap will be built.
-    'base_url': 'https://tyxz.github.io/PixelTransfer/html/',
+    'base_url': 'https://tyxz.github.io/PixelTransfer/',
 
     "html_minify": False,
     "html_prettify": True,
@@ -94,6 +96,23 @@ html_theme_options = {
     'globaltoc_collapse': False,
     # If True, show hidden TOC entries
     'globaltoc_includehidden': False,
+}"""
+
+html_theme = "sphinx_rtd_theme"
+html_theme_path = ["_themes", ]
+html_theme_options = {
+    'canonical_url': 'https://github.com/Tyxz/PixelTransfer/',
+    'logo_only': False,
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': False,
+    'style_nav_header_background': 'white',
+    # Toc options
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
@@ -103,9 +122,11 @@ html_static_path = ['_static']
 
 # At the bottom of conf.py
 github_doc_root = "https://github.com/Tyxz/image_transfer/tree/master/docs/"
+
+
 def setup(app):
     app.add_config_value('recommonmark_config', {
-            'url_resolver': lambda url: github_doc_root + url,
-            'auto_toc_tree_section': 'Contents',
-            }, True)
+        'url_resolver': lambda url: github_doc_root + url,
+        'auto_toc_tree_section': 'Contents',
+    }, True)
     app.add_transform(AutoStructify)

@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from PIL import Image, ImageChops, ImageColor, ImageEnhance
 import collections
 import os
@@ -6,27 +8,42 @@ import errno
 from pathlib import Path
 
 
-class Transfer:
-    width = 0
-    height = 0
-    tint_threshold = 100
-    tint = False
-    colour = None
-    merge = 0
-    brightness = 1.0
-    contrast = 1.0
-    sharpness = 1.0
-    destination = None
-    base = ""
-    goal = ""
-    base_filter = "*"
-    goal_filter = "*"
-    out_path = ""
-    size = None
-    verbose = True
-    exclude = []
-    include = []
-
+class Transfer(object):
+    """Transfer object to transfer pixel information from one image to another.
+    
+    :param base_path: path to the base image or folder
+    :type base_path: str
+    :param goal_path: path to the goal image or folder
+    :type goal_path: str
+    :param base_filter: filter to be used on the base image, defaults to "*"
+    :type base_filter: str, optional
+    :param goal_filter: filter to be used on the goal image, defaults to "*"
+    :type goal_filter: str, optional
+    :param exclude: list of names to be excluded from the input, defaults to []
+    :type exclude: list, optional
+    :param include: list of names to be included by the input, defaults to []
+    :type include: list, optional
+    :param out_path: path where the result should be stored, defaults to "out"
+    :type out_path: str, optional
+    :param size: size tuple [width, height] if you want the result to be resized, defaults to None
+    :type size: [int], optional
+    :param verbose: if you want a output to the console, defaults to True
+    :type verbose: bool, optional
+    :param tint: if you want to tint the image, defaults to False
+    :type tint: bool, optional
+    :param colour: Specific colour of the tint. If not given but tint is true, the majority colour of the image will be used, defaults to None
+    :type colour: str, optional
+    :param merge: percentage [0-100] of merging the goal image into the base, defaults to 0
+    :type merge: int, optional
+    :param brightness: enhancement factor for the brightness: 0.0 is black, 1.0 is normal and > 1.0 is brighter, defaults to 1.0
+    :type brightness: float, optional
+    :param contrast: enhancement factor for the contrast: 0.0 is grey, 1.0 is normal and > 1.0 is more contrast, defaults to 1.0
+    :type contrast: float, optional
+    :param sharpness: enhancement factor for the sharpness: 0.0 is smooth, 1.0 is normal and > 1.0 is sharper, defaults to 1.0
+    :type sharpness: float, optional
+    :param tint_threshold: threshold for the alpha value (0-255) to calculate the majority colour., defaults to 100
+    :type tint_threshold: int, optional
+    """
     def __get_colors_by_frequency(self, value: object) -> object:
         return collections.Counter([value[i, j] for i in range(self.width) for j in range(self.height) if value[i, j][3] >= self.tint_threshold])
 
@@ -44,7 +61,7 @@ class Transfer:
 
         return ImageChops.multiply(dest, Image.new('RGBA', dest.size, tint_color))
 
-    def __imageInformations(self, path: Path) -> (Image, int, int, object):
+    def __imageInformations(self, path: Path) -> (object, int, int, object):
         image = Image.open(path, 'r')
         width, height = image.size
         pixel_values = image.load()
@@ -65,7 +82,7 @@ class Transfer:
             else:
                 raise
 
-    def __alpha_transfer(self, base_values: object, goal_values: object) -> Image:
+    def __alpha_transfer(self, base_values: object, goal_values: object) -> object:
         destination_image = Image.new('RGBA', (self.width, self.height))
         destination_values = destination_image.load()
 
@@ -84,12 +101,12 @@ class Transfer:
 
         return destination_image
 
-    def __resizeImage(self, image: Image, size: tuple) -> Image:
+    def __resizeImage(self, image: object, size: tuple) -> object:
         assert len(
             size) == 2, f"size needs be a tuple (width, height) not {size}"
         return image.resize(size, Image.ANTIALIAS)
 
-    def __saveImage(self, goal_image_path: Path, destination_image: Image, out_path: str) -> None:
+    def __saveImage(self, goal_image_path: Path, destination_image: object, out_path: str) -> None:
         out = self.__outName(goal_image_path, out_path,
                              self.width, self.height)
         out = f"{out}.png"
@@ -98,6 +115,17 @@ class Transfer:
         destination_image.save(out)
 
     def createImage(self, base_image_path: Path, goal_image_path: Path, out_path="out") -> None:
+        """Create an pixel transfer image.
+        
+        :param base_image_path: path to the base image
+        :type base_image_path: Path
+        :param goal_image_path: path to the goal image
+        :type goal_image_path: Path
+        :param out_path: path where the result will be saved, defaults to "out"
+        :type out_path: str, optional
+        :raises TypeError: if base image is not RGB or RGBA
+        :raises TypeError: if goal image is not RGBA
+        """
         self.__create_dirs(out_path)
 
         base_image, base_width, base_height, base_values = self.__imageInformations(
@@ -161,7 +189,9 @@ class Transfer:
         elif os.path.isfile(self.goal):
             self.createImage(base_image, self.goal, out_path)
 
-    def setupBase(self):
+    def run(self):
+        """Run the transfer module with the previous given values.
+        """
         if os.path.isdir(self.base):
             for base_image in Path(self.base).rglob(self.base_filter):
                 if self.__SkipImage(base_image):
@@ -177,6 +207,7 @@ class Transfer:
     def __init__(self, base_path: str, goal_path: str,
                  base_filter="*", goal_filter="*", exclude=[], include=[], out_path="out", size=None,
                  verbose=True, tint=False, colour=None, merge=0, brightness=1.0, contrast=1.0, sharpness=1.0, tint_threshold=100):
+        assert colour is not None and tint or colour is None, "Colour will only be working if tint is enabled"
         assert tint_threshold <= 255, "Threshold is too big"
         assert brightness >= 0.0, "Brightness is to small"
         assert merge >= 0, "Merge must be positive"
@@ -200,7 +231,7 @@ class Transfer:
         self. tint_threshold = tint_threshold
 
 
-def get_parser():
+def get_parser() -> object:
     import argparse
 
     def check_100(value: int):
@@ -251,11 +282,6 @@ def get_parser():
 
 
 
-def __add_to_name(name, value, needSeparator, out_path):
-    if needSeparator:
-        out_path += "_"
-    out_path += f"{name}{value}"
-    return True, out_path
 
 if __name__ == "__main__":
 
@@ -264,6 +290,12 @@ if __name__ == "__main__":
 
     out_path = os.path.join(args.out, "")
     needSeparator = False
+    
+    def __add_to_name(name: str, value: str, needSeparator: bool, out_path: str) -> (bool, str):
+        if needSeparator:
+            out_path += "_"
+        out_path += f"{name}{value}"
+        return True, out_path
 
     if args.tint:
         out_path += "t"
@@ -284,4 +316,4 @@ if __name__ == "__main__":
 
     transfer = Transfer(args.base, args.goal, args.base_filter, args.goal_filter, args.exclude,
                         args.include, out_path, args.size, args.verbose, args.tint, args.colour, args.merge, args.brightness, args.contrast, args.sharpness)
-    transfer.setupBase()
+    transfer.run()
