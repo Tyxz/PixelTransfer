@@ -72,13 +72,23 @@ html_theme_options = {
     # specified, then no sitemap will be built.
     'base_url': 'https://tyxz.github.io/PixelTransfer/html/',
 
+    "google_analytics_account": "UA-XXXXX",
+
+    "html_minify": False,
+    "html_prettify": True,
+    "css_minify": True,
+
     # Set the color and the accent color
-    'color_primary': 'blue',
-    'color_accent': 'light-blue',
+    'color_primary': 'grey',
+    'color_accent': 'blue',
+    "theme_color": "#2196f3",
 
     # Set the repo location to get a badge with stats
     'repo_url': 'https://github.com/Tyxz/PixelTransfer/',
     'repo_name': 'PixelTransfer',
+    "repo_type": "github",
+    "version_dropdown": True,
+    "version_json": "_static/versions.json",
 
     # Visible levels of the global TOC; -1 means unlimited
     'globaltoc_depth': 3,
