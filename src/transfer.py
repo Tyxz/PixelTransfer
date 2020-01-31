@@ -1,10 +1,11 @@
 from PIL import Image, ImageChops, ImageColor, ImageEnhance
-import numpy as np
 import argparse
 import collections
-import os  
+import os
 import glob
-import errno    
+import errno
+from pathlib import Path
+
 
 class Transfer:
     width = 0
@@ -24,16 +25,14 @@ class Transfer:
     exclude = []
     include = []
 
+    def __get_colors_by_frequency(self, value: object) -> object:
+        return collections.Counter([value[i, j] for i in range(self.width) for j in range(self.height) if value[i, j][3] >= self.tint_threshold])
 
-
-    def __get_colors_by_frequency(self, value):
-        return collections.Counter([value[i,j] for i in range(self.width) for j in range(self.height) if value[i,j][3] >= self.tint_threshold])
-
-    def __getTint(self, value):
+    def __getTint(self, value: object) -> tuple:
         colors = self.__get_colors_by_frequency(value)
         return colors.most_common(1)[0][0]
 
-    def __tint_image(self, dest, goal, colour = None):
+    def __tint_image(self, dest:object, goal:object, colour=None) -> object:
         tint_color = ()
         if colour is None:
             pixel_values = goal.load()
@@ -43,27 +42,59 @@ class Transfer:
 
         return ImageChops.multiply(dest, Image.new('RGBA', dest.size, tint_color))
 
-    def __imageInformations(self, path):
+    def __imageInformations(self, path: Path) -> (Image, int, int, object):
         image = Image.open(path, 'r')
         width, height = image.size
         pixel_values = image.load()
         return image, width, height, pixel_values
 
-    def __outName(self, image_path, out_path):
+    def __outName(self, image_path: Path, out_path: str) -> str:
         name = os.path.basename(image_path).split('.')[0]
-        return os.path.join(out_path,name)
+        return os.path.join(out_path, name)
 
-    def createImage(self, base_image_path, goal_image_path, out_path = "out"):
+    def __create_dirs(self, out_path:str) -> None:
         try:
             os.makedirs(out_path)
-        except OSError as exc: 
+        except OSError as exc:
             if exc.errno == errno.EEXIST and os.path.isdir(out_path):
                 pass
             else:
                 raise
-        
-        base_image, base_width, base_height, base_values = self.__imageInformations(base_image_path)
-        goal_image, goal_width, goal_height, goal_values = self.__imageInformations(goal_image_path)
+
+    def __alpha_transfer(self, base_values:object, goal_values:object) -> Image:
+        destination_image = Image.new('RGBA', (self.width, self.height))
+        destination_values = destination_image.load()
+
+        for i in range(self.width):
+            for j in range(self.height):
+                base = list(base_values[i, j])
+                goal = goal_values[i, j]
+                alpha = goal[3]
+                merge = self.merge
+                base.append(alpha)
+                if merge > 0:
+                    for k in range(len(base)):
+                        base[k] = int(
+                            (goal[k] * merge + base[k] * (100-merge)) / 100)
+                destination_values[i, j] = tuple(base)
+
+        return destination_image
+    
+    def __saveImage(self, goal_image_path: Path, destination_image: Image, out_path: str) -> None:
+        out = self.__outName(goal_image_path, out_path)
+        out = f"{out}.png"
+        if self.verbose:
+            print(f"Save to {out}")
+        destination_image.save(out)
+
+    
+    def createImage(self, base_image_path: Path, goal_image_path: Path, out_path="out") -> None:
+        self.__create_dirs(out_path)
+
+        base_image, base_width, base_height, base_values = self.__imageInformations(
+            base_image_path)
+        goal_image, goal_width, goal_height, goal_values = self.__imageInformations(
+            goal_image_path)
 
         assert base_height == goal_height, "Base and goal image need to have the same height"
         assert base_width == goal_width, "Base and goal image need to have the same height"
@@ -75,46 +106,33 @@ class Transfer:
             raise TypeError(f'Unsupported goal image mode: {goal_image.mode}')
 
         self.height, self.width = base_height, base_width
-        destination_image = Image.new('RGBA', (self.width, self.height))
-        destination_values = destination_image.load()
 
-        for i in range(self.width):
-            for j in range(self.height):
-                base = list(base_values[i,j])
-                goal = goal_values[i,j]
-                alpha = goal[3]
-                merge = self.merge
-                base.append(alpha)
-                if merge > 0:
-                    for k in range(len(base)):
-                        base[k] = int((goal[k] * merge + base[k] * (100-merge)) / 100)
-                destination_values[i,j] = tuple(base)
+        destination_image = self.__alpha_transfer(base_values, goal_values)
 
         if self.tint:
-            destination_image = self.__tint_image(destination_image, goal_image, self.colour)
+            destination_image = self.__tint_image(
+                destination_image, goal_image, self.colour)
 
-        destination_image = ImageEnhance.Brightness(destination_image).enhance(self.brightness)
+        destination_image = ImageEnhance.Brightness(
+            destination_image).enhance(self.brightness)
 
-        out = self.__outName(goal_image_path, out_path)
-        out = f"{out}.png"
-        if self.verbose:
-            print(f"Save to {out}")
-        destination_image.save(out)
-        
-    def __SkipImage(self, image):
+        self.__saveImage(goal_image_path, destination_image, out_path)
+
+    def __SkipImage(self, image:Path):
         for e in self.exclude:
-            if e in image:
+            print(image, e)
+            if e in str(image):
                 return True
         isNotIncluded = len(self.include) != 0
         for i in self.include:
-            if i in image:
+            if i in str(image):
                 isNotIncluded = False
                 break
         return isNotIncluded
 
-    def __setupGoal(self, base_image, out_path):
+    def __setupGoal(self, base_image:str, out_path:str):
         if os.path.isdir(self.goal):
-            for goal_image in glob.glob(os.path.join(self.goal,self.goal_filter)):
+            for goal_image in Path(self.goal).rglob(self.goal_filter):
                 if self.__SkipImage(goal_image):
                     continue
                 if self.verbose:
@@ -125,7 +143,7 @@ class Transfer:
 
     def setupBase(self):
         if os.path.isdir(self.base):
-            for base_image in glob.glob(os.path.join(self.base,self.base_filter)):
+            for base_image in Path(self.base).rglob(self.base_filter):
                 if self.__SkipImage(base_image):
                     continue
                 out_path = self.__outName(base_image, self.out_path)
@@ -136,7 +154,9 @@ class Transfer:
             out_path = self.__outName(self.base, self.out_path)
             self.__setupGoal(self.base, out_path)
 
-    def __init__(self, base_path, goal_path, base_filter="*", goal_filter="*", exclude=[], include=[], out_path="out", verbose=True, tint=False, colour=None, merge=0, brightness=1.0, tint_threshold=100):
+    def __init__(self, base_path: str, goal_path: str, 
+        base_filter="*", goal_filter="*", exclude=[], include=[], out_path="out", 
+        verbose=True, tint=False, colour=None, merge=0, brightness=1.0, tint_threshold=100):
         assert tint_threshold <= 255, "Threshold is too big"
         assert brightness >= 0.0, "Brightness is to small"
         assert merge >= 0, "Merge must be positive"
@@ -155,30 +175,42 @@ class Transfer:
         self. tint_threshold = tint_threshold
 
 
-if __name__ == "__main__":
-    def check_100(value):
+def get_parser():
+    def check_100(value: int):
         ivalue = int(value)
         if ivalue < 0 or ivalue > 100:
-            raise argparse.ArgumentTypeError(f"{value} is an invalid percentage int value")
+            raise argparse.ArgumentTypeError(
+                f"{value} is an invalid percentage int value")
         return ivalue
 
-    parser = argparse.ArgumentParser(description='')
-    parser.add_argument('base')
-    parser.add_argument('goal')
-    parser.add_argument('-bf', '--base_filter', default="*")
-    parser.add_argument('-gf', '--goal_filter', default="*")
+    parser = argparse.ArgumentParser(
+        description='Python script to transfer alpha values from one image (goal) to another (base).\nAdditionally, you can also tint the base image based on the majority colour of the goal image, or merge the two together.')
+    parser.add_argument('base', help="Image you want to see edited.")
+    parser.add_argument(
+        'goal', help="Image you want to take the alpha value and tint from.")
+    parser.add_argument('-bf', '--base_filter', default="*", help="Filter the base image folder.")
+    parser.add_argument('-gf', '--goal_filter', default="*", help="Filter the goal image folder.")
     a2 = parser.add_mutually_exclusive_group(required=False)
-    a2.add_argument('-e', '--exclude', nargs='*', default=[])
-    a2.add_argument('-i', '--include', nargs='*', default=[])
-    parser.add_argument('-m', '--merge', type=check_100, help="Merge with goal in percent from 0-100", default=0)
-    parser.add_argument('-b', '--brightness', help="Improve brightness", type=float, default=1.0)
-    parser.add_argument('-v', '--verbose', action='store_true', default=False )
-    ag1 = parser.add_argument_group('tint')
-    ag1.add_argument('-t', '--tint', help="Add tint from goal", action='store_true', default=False )
-    ag1.add_argument('-c', '--colour', help="Specify a colour" )
-    args = parser.parse_args()
+    a2.add_argument('-e', '--exclude', nargs='*', default=[], help="Exclude a list of file names.")
+    a2.add_argument('-i', '--include', nargs='*', default=[], help="Include only a list file names.")
+    a2.add_argument('-o', '--out', default="out", help="Base directory where the output is saved.")
+    parser.add_argument('-m', '--merge', type=check_100,
+                        help="Merge with goal in percent from 0-100.", default=0)
+    parser.add_argument('-b', '--brightness',
+                        help="Improve brightness with an value between 0.0 and infty. 0.0 is black, 1.0 is normal and everything above is brighter.", type=float, default=1.0)
+    parser.add_argument('-v', '--verbose', action='store_true', default=False)
+    ag1 = parser.add_argument_group('Tint the base images with the majority colour of the goal image or a given colour.')
+    ag1.add_argument('-t', '--tint', help="Add tint from the goal image.",
+                     action='store_true', default=False)
+    ag1.add_argument('-c', '--colour', help="Specify a colour.")
 
-    out_path = os.path.join("out","")
+    return parser
+
+if __name__ == "__main__":
+
+    args = get_parser().parse_args()
+
+    out_path = os.path.join(args.out, "")
     if args.tint:
         out_path += "t"
         if args.colour is not None:
@@ -191,9 +223,10 @@ if __name__ == "__main__":
         if args.tint or args.brightness != 1.0:
             out_path += "_"
         out_path += f"m{args.merge}"
-        
+
     if args.verbose:
         print(out_path)
 
-    transfer = Transfer(args.base, args.goal, args.base_filter, args.goal_filter, args.exclude, args.include, out_path, args.verbose, args.tint, args.colour, args.merge, args.brightness)
+    transfer = Transfer(args.base, args.goal, args.base_filter, args.goal_filter, args.exclude,
+                        args.include, out_path, args.verbose, args.tint, args.colour, args.merge, args.brightness)
     transfer.setupBase()

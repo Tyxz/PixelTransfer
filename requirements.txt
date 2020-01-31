@@ -1,0 +1,3 @@
+pillow
+argparse
+sphinx>=2.0
