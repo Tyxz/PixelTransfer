@@ -45,7 +45,7 @@
   
   
   
-    <title>Commands &#8212; Pixel Transfer 0.2.0 documentation</title>
+    <title>Commands &#8212; Pixel Transfer 0.3.0 documentation</title>
     <link rel="stylesheet" href="../_static/material.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -89,7 +89,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex navheader">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="../index.html" title="Pixel Transfer 0.2.0 documentation"
+        <a href="../index.html" title="Pixel Transfer 0.3.0 documentation"
            class="md-header-nav__button md-logo">
           
             &nbsp;
@@ -137,7 +137,7 @@
       
         <div class="md-flex__cell md-flex__cell--shrink">
           <div class="md-header-nav__source">
-            <a href="https://tyxz.github.io/PixelTransfer/" title="Go to repository" class="md-source" data-md-source="github">
+            <a href="https://github.com/Tyxz/PixelTransfer" title="Go to repository" class="md-source" data-md-source="github">
 
     <div class="md-source__icon">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
@@ -164,7 +164,7 @@
   <nav class="md-tabs" data-md-component="tabs">
     <div class="md-tabs__inner md-grid">
       <ul class="md-tabs__list">
-          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Pixel Transfer 0.2.0 documentation</a></li>
+          <li class="md-tabs__item"><a href="../index.html" class="md-tabs__link">Pixel Transfer 0.3.0 documentation</a></li>
       </ul>
     </div>
   </nav>
@@ -176,16 +176,16 @@
               <div class="md-sidebar__inner">
                 <nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="../index.html" title="Pixel Transfer 0.2.0 documentation" class="md-nav__button md-logo">
+    <a href="../index.html" title="Pixel Transfer 0.3.0 documentation" class="md-nav__button md-logo">
       
         <img src="../_static/" alt=" logo" width="48" height="48">
       
     </a>
     <a href="../index.html"
-       title="Pixel Transfer 0.2.0 documentation">Pixel Transfer</a>
+       title="Pixel Transfer 0.3.0 documentation">Pixel Transfer</a>
   </label>
     <div class="md-nav__source">
-      <a href="https://tyxz.github.io/PixelTransfer/" title="Go to repository" class="md-source" data-md-source="github">
+      <a href="https://github.com/Tyxz/PixelTransfer" title="Go to repository" class="md-source" data-md-source="github">
 
     <div class="md-source__icon">
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="28" height="28">
@@ -218,6 +218,10 @@
         </li>
         <li class="md-nav__item"><a href="#Named Arguments" class="md-nav__link">Named Arguments</a>
         </li>
+        <li class="md-nav__item"><a href="#Filter the source images in a folder." class="md-nav__link">Filter the source images in a folder.</a>
+        </li>
+        <li class="md-nav__item"><a href="#Enhance various aspects of the image." class="md-nav__link">Enhance various aspects of the image.</a>
+        </li>
         <li class="md-nav__item"><a href="#Tint the base images with the majority colour of the goal image or a given colour." class="md-nav__link">Tint the base images with the majority colour of the goal image or a given colour.</a>
         </li></ul>
             </nav>
@@ -241,7 +245,9 @@
 <p><p>Python script to transfer alpha values from one image (goal) to another (base).
 Additionally, you can also tint the base image based on the majority colour of the goal image, or merge the two together.</p>
 </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">transfer</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">bf</span> <span class="n">BASE_FILTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">gf</span> <span class="n">GOAL_FILTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="p">[</span><span class="n">EXCLUDE</span> <span class="p">[</span><span class="n">EXCLUDE</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="o">-</span><span class="n">i</span> <span class="p">[</span><span class="n">INCLUDE</span> <span class="p">[</span><span class="n">INCLUDE</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="o">-</span><span class="n">o</span> <span class="n">OUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">MERGE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BRIGHTNESS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">COLOUR</span><span class="p">]</span> <span class="n">base</span> <span class="n">goal</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">transfer</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">bf</span> <span class="n">BASE_FILTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">gf</span> <span class="n">GOAL_FILTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="p">[</span><span class="n">EXCLUDE</span> <span class="p">[</span><span class="n">EXCLUDE</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="o">-</span><span class="n">i</span> <span class="p">[</span><span class="n">INCLUDE</span> <span class="p">[</span><span class="n">INCLUDE</span> <span class="o">...</span><span class="p">]]]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SIZE</span> <span class="p">[</span><span class="n">SIZE</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">m</span> <span class="n">MERGE</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BRIGHTNESS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">ct</span> <span class="n">CONTRAST</span><span class="p">]</span>
+                   <span class="p">[</span><span class="o">-</span><span class="n">sh</span> <span class="n">SHARPNESS</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">COLOUR</span><span class="p">]</span>
+                   <span class="n">base</span> <span class="n">goal</span>
 </pre></div>
 </div>
 
@@ -257,6 +263,25 @@ Additionally, you can also tint the base image based on the majority colour of t
 
 
 <h2 id="Named Arguments">Named Arguments<a class="headerlink" href="#Named Arguments" title="Permalink to this headline">¶</a></h2>
+<dl class="option-list">
+<dt><kbd>-o, --out</kbd></dt>
+<dd><p>Base directory where the output is saved.</p>
+<p>Default: “out”</p>
+</dd>
+<dt><kbd>-s, --size</kbd></dt>
+<dd><p>Width and height of the resulting image.</p>
+</dd>
+<dt><kbd>-m, --merge</kbd></dt>
+<dd><p>Merge with goal in percent from 0-100.</p>
+<p>Default: 0</p>
+</dd>
+<dt><kbd>-v, --verbose</kbd></dt>
+<dd><p>Default: False</p>
+</dd>
+</dl>
+
+
+<h2 id="Filter the source images in a folder.">Filter the source images in a folder.<a class="headerlink" href="#Filter the source images in a folder." title="Permalink to this headline">¶</a></h2>
 <dl class="option-list">
 <dt><kbd>-bf, --base_filter</kbd></dt>
 <dd><p>Filter the base image folder.</p>
@@ -274,20 +299,22 @@ Additionally, you can also tint the base image based on the majority colour of t
 <dd><p>Include only a list file names.</p>
 <p>Default: []</p>
 </dd>
-<dt><kbd>-o, --out</kbd></dt>
-<dd><p>Base directory where the output is saved.</p>
-<p>Default: “out”</p>
-</dd>
-<dt><kbd>-m, --merge</kbd></dt>
-<dd><p>Merge with goal in percent from 0-100.</p>
-<p>Default: 0</p>
-</dd>
+</dl>
+
+
+<h2 id="Enhance various aspects of the image.">Enhance various aspects of the image.<a class="headerlink" href="#Enhance various aspects of the image." title="Permalink to this headline">¶</a></h2>
+<dl class="option-list">
 <dt><kbd>-b, --brightness</kbd></dt>
 <dd><p>Improve brightness with an value between 0.0 and infty. 0.0 is black, 1.0 is normal and everything above is brighter.</p>
 <p>Default: 1.0</p>
 </dd>
-<dt><kbd>-v, --verbose</kbd></dt>
-<dd><p>Default: False</p>
+<dt><kbd>-ct, --contrast</kbd></dt>
+<dd><p>Improve contrast with an value between 0.0 and infty.</p>
+<p>Default: 1.0</p>
+</dd>
+<dt><kbd>-sh, --sharpness</kbd></dt>
+<dd><p>Improve sharpness with an value between 0.0 and infty.</p>
+<p>Default: 1.0</p>
 </dd>
 </dl>
 

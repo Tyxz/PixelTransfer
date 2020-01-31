@@ -1,7 +1,12 @@
 # Changelog
 
-## 0.2.0
+## 0.3.0
+- Added (CLI) option to change size, contrast and sharpness
+- Added size to ouput name
+- Resize goal image automatically to size of base
+- Updated Sphinx docs
 
+## 0.2.0
 - Extended code
 - First docs with Sphinx
 - Improved CLI 
@@ -11,7 +16,6 @@
 
 
 ## 0.1.0
-
 - Initial functionality
 - Alpha values exchangable
 - Merge percentagewise
