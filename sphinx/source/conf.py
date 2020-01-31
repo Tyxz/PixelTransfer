@@ -72,8 +72,6 @@ html_theme_options = {
     # specified, then no sitemap will be built.
     'base_url': 'https://tyxz.github.io/PixelTransfer/html/',
 
-    "google_analytics_account": "UA-XXXXX",
-
     "html_minify": False,
     "html_prettify": True,
     "css_minify": True,
@@ -85,9 +83,9 @@ html_theme_options = {
 
     # Set the repo location to get a badge with stats
     'repo_url': 'https://github.com/Tyxz/PixelTransfer/',
-    'repo_name': 'PixelTransfer',
+    'repo_name': 'Pixel Transfer',
     "repo_type": "github",
-    "version_dropdown": True,
+    "version_dropdown": False,
     "version_json": "_static/versions.json",
 
     # Visible levels of the global TOC; -1 means unlimited
@@ -104,7 +102,7 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # At the bottom of conf.py
-github_doc_root = "https://github.com/Tyxz/image_transfer/tree/master/docs/html/"
+github_doc_root = "https://github.com/Tyxz/image_transfer/tree/master/docs/"
 def setup(app):
     app.add_config_value('recommonmark_config', {
             'url_resolver': lambda url: github_doc_root + url,
