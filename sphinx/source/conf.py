@@ -94,7 +94,7 @@ html_theme_options = {
 html_static_path = ['_static']
 
 # At the bottom of conf.py
-github_doc_root = "https://github.com/Tyxz/image_transfer/tree/master/docs"
+github_doc_root = "https://github.com/Tyxz/image_transfer/tree/master/docs/html"
 def setup(app):
     app.add_config_value('recommonmark_config', {
             'url_resolver': lambda url: github_doc_root + url,
