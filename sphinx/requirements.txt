@@ -1,4 +1,5 @@
-sphinx_material
+# sphinx_material
+sphinx_rtd_theme
 recommonmark
 autodoc
 sphinx-argparse
